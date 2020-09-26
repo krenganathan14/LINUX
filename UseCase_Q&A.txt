@@ -1,0 +1,162 @@
+/*
+AIM 	   :Use Cases-Q&A
+DATE	   :14-DEC-2017
+PreRequest :Linux Operation System - terminal >
+*/
+
+1. Goto /home/hduser directory and Create 2 files namely cust1.txt and 
+cust2.txt with the first 10 lines copied from /home/hduser/hive/data/custs and last 10 lines copied from /home/hduser/hive/data/custs.
+	 $ head -10 ~/hive/data/custs > cust1.txt
+     $ tail -10 ~/hive/data/custs > cust2.txt
+	 
+2. Create a file namely samplefile.txt using vi editor
+	 $ vi samplefile.txt
+	 i - insert
+	 esc : wq (write and quit) tpye a words and save using commmend
+	 esc : q! (quit without save)
+	 esc + dd (delete the line)
+		 + 3dd (delete three lines)
+		 + 5  (form cursor next file lines selected)
+		 + yy (yanked 5 lines and copied)
+		 + Shift + P (past copied lines)
+		 :10 it will go to 1oth line
+		 :/serachtext it go seach and find place
+		 + u undo last change
+		 + U undo all changes to the entire line
+		 +ctrl+insert (copy) or ctrl+shift+c
+         +shift+insert (paste) or ctrl+shift+v	 
+		 
+	a. Type/copy 10 lines of some content
+		$ vi samplefile.txt
+		i
+		esc
+		:5
+		5 (form cursor next five lines selected)
+		yy
+		Shift+P
+		:wq or shif+zz (save and close the file)
+		:w (save the file and keep open)
+		:q! or q (quit without saving)
+		+hjkl
+		+h move cursor left
+		+j move cursor down
+		+k move cursor up
+		+l mvoe cursor right
+		
+		
+	b. Goto line 5 and remove line 5 to 7 using command.
+	c. Goto last line and copy last line to first line and delete the last line manually.
+	d. Find for a particular word inside the file
+	e. Undo the last action you did
+	f. Save and quit the file
+	g. Open the file again, Delete 2 words in the last line and quit without saving
+
+
+3. Merge the cust1.txt and cust2.txt in the name of custmerged.txt with cust2.txt contents first and cust1.txt content next
+	 $ cat cust2.txt > custmerged.txt
+	 $ cat cust1.txt >> custmerged.txt
+	 S cat custmerged.txt
+
+4. Count the number of lines in custmerged.txt and add the count in the last line of the custmerged.txt using command without using vi editor
+     $ wc -l custmerged.txt >> custmerged.txt
+
+5. Add a header as custno,firstname,lastname,age,profession in the first line of the custmerged.txt using command without using vi editor
+(Hint: Think of using tempfiles, first create a temp file with header, then add data, then move tempfile to final filename)
+	 $ vi tempheader.txt -i custno,firstname,lastname,age,profession :wq
+	 $ cat custmerged.txt >> tempheader.txt
+	 
+
+
+6. Find for the number of occurances of the word Pilot
+	 $ wc -w "Pilot" custmerged.txt
+	 $ grep -o Pilot custmerged.txt | wc -l
+	 
+7. Find for Pilot and replace with Aircraft Pilot in the custmerged.txt (use the commmand sed -i 's/Pilot/Aircraft Pilot/g' custmerged.txt)
+     $ sed -i 's/Pilot/AircraftPiot/g' custmerged.txt
+
+8. Count the number of words and lines in the custmerged.txt
+	 $ wc -l custmerged.txt
+	 $ wc -w custmerged.txt
+	 
+9. List and display only the last file created. List and display only the last but one file created in the current folder.
+	 $ ls -lrt ./ | tail -1
+	 $ ls -Ft | grep -v ./ | head -1
+	 $ ls -lrt | grep -v dr | tail -1
+	 $ ls -1t | head -1
+	 
+10. Copy the custmerged.txt in the name of custmeredcopied.txt retaining the timestamp of the original file in the copied file.
+	 $ touch -r custmerged.txt custmergedcopied.txt
+	 
+11. Goto /tmp directory, staying in /tmp , create directories inside /home/hduser path as src/custdata using placeholder ~ , then goto /home/hduser/src/custdata,
+	then goto /home path using absolute path method, come back to /home/hduser/src/custdata using the respective placeholder, go to 2 levels higher using the
+	respective placeholder
+	 $ cd /tmp
+	 $ mkdir -p ~/src/custdata
+	 $ cd ~/src/custdata
+     $ pwd
+     $ cd /home
+     $ cd ~/src/custdata
+     $ cd ../../..
+ 
+12. Copy the custmerged.txt inside the /home/hduser/src/custdata and rename the directory custdata as customerdata
+	$ cp custmerged.txt ~/src/custdata/
+	$ mv ~/src/custdata ~/src/customerdata
+	
+
+13. Move & rename the /home/hduser/src/customerdata into the directory /tmp/custdata/process
+	$mv ~/src/customerdata /tmp/custdata/process
+	
+14. Create a zerobyte file namely success inside /tmp/custdata/process
+	$ touch success
+	
+15. Create a dir called /tmp/custdata/archive
+	$ mkdir /tmp/custdata/archive/
+	
+16. compress using gzip compression the /tmp/custdata/process/custmerged.txt file and move into /tmp/custdata/archive
+	$ gzip /tmp/custdata/process/custmerged.txt
+	$ mv custmerged.txt.gz /tmp/custdata/archive/
+
+16. Remove the /tmp/custdata/process directory.
+	$ rm -rf /tmp/custdata/process
+	
+17. Create a user in your name, set password as hduser(reyaansh), switch user to the user created, create a file inside /tmp directory in your name logged in your name.
+    $ sudo useradd reyaansh
+    $ sudo passwd reyaansh
+	
+	
+	$ su reyaansh
+	$ echo "Reyaansh file" > /tmp/testreyaansh.txt
+	
+
+18. Remove write access for user using octal number and naming methods using chmod, try writing the file using vi editor
+	$ sudo chmod 660 testreyaansh.txt
+	  -rw-rw----
+	$ sudo chmod 440 testreyaansh.txt
+	  -r--r-----
+	$ sudo chmod 777 testreyaansh.txt  // chmod -R 777 /tmp
+	  -rwxrwxrwx
+	
+	$ sudo chmod o-wx testreyaansh.txt
+	  -rwxrwxr--
+	$ sudo chmod u-wx testreyaansh.txt
+	  -rwxr--r--
+	
+	$ sudo usermod -a -G hduser reyaansh
+	$ sudo chown reyaansh hduserfile
+	$ sudo chgrp  reyaansh hduserfile
+	
+19. Repeate the step 18 for other user also, you can use hduser as others here.
+
+20. Create a local variable called welcomemessage="Welcome aspirants", convert it into environmental variable, check whether it is added in the env variable.
+	$ myname=ReyaanshRenganathan
+	$ myname
+	$ export myname
+
+21. Add the env variable into .bashrc profile and ensure the env variable is set every time.
+    export myname =ReyaanshRenganathan
+	
+	$ echo "echo Reyaansh Renganathan" myname > /usr/local/hadoop/bin
+	$ sudo chmod 777 myname
+	$ myname
+	Reyaansh Renganathan
+==========================================================================================================================================================

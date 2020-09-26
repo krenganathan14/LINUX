@@ -1,0 +1,240 @@
+/*
+
+AIM 	   :Development Commands & Files and Directory management
+DATE	   :14-DEC-2017
+PreRequest :Red Hat Enterprise Linux Operation System - terminal >
+
+*/
+
+Different files are available such as flat files, compressed files, hidden files and system files.
+Listing Files
+Short 
+
+	 $ls
+
+Long list
+	 $ls -l
+
+Long list all files and directories sorting by modification time in descending order
+	 $ls -lart
+
+Details about all the listed columns −
+ First Column: represents file type and permission given on the file. Below is the description of all type of files.
+ Second Column: represents the number of dirs/links in the directory.
+ Third Column: represents owner of the file. This is the Unix user who created this file.
+ Fourth Column: represents group of the owner. Every Unix user would have an associated group.
+ Fifth Column: represents file size in bytes.
+ Sixth Column: represents date and time when this file was created or modified last time.
+ Seventh Column: represents file or directory name.
+
+Listing hidden files
+	 $ls -a
+
+File handling
+Create/Edit file
+
+	 $vi file1
+
+Add some content in the above file after typing 'i'.
+Delete a line : esc+dd
+Delete a word : esc+dw
+Delete a character : esc+x
+Search for a word: esc /wordtofind
+Goto a line number: esc :linenumber
+Undo: esc+u
+Redo: ctrl+R
+To save type Shift+: wq
+To quit without saving Shift+: q!
+
+Create/Replace a file with few content
+	 $echo 'welcome to unix' > filename1
+
+Append content to a file
+	 $echo "this is the second line" >> filename1
+Create Empty file
+
+	 $touch filename2 > filename3
+
+
+Display content of a file
+Display whole content
+	 $cat filename
+
+Display incremental content
+
+	 $more filename
+
+Display first 10 lines
+	 $head filename
+
+Display last 10 lines
+	 $tail filename
+
+Counting number of lines in a file
+	 $wc -l filename
+
+File operation (copy, move, rename, delete)
+	 $cp filename file2
+	 $mv file2 file3
+	 $rm file3
+
+Directory Commands
+
+You can go in your home directory anytime using the following command −
+	 $cd ~
+Here ~ indicates home directory. If you want to go in any other users home directory then use the following command −
+	 $cd ~hduser
+
+To go in your last directory you can use following command −
+	 $cd -
+
+To go to the parent directory
+	 $cd ..
+	 $cd ../..
+
+Create Dir
+Relative path
+Access the rest of the child path from the parent path.
+	 $cd ~
+	 $mkdir dirname
+
+Absolute path
+Fully qualified path start with ‘/’ provided from root till the child.
+	 $mkdir /home/hduser/dirname2
+
+Create directory structure from parent directory, here all three dir1,2,3 will be created using option ‘p’.
+	 $mkdir -p /home/hduser/dir1/dir2/dir3
+
+Change Dir
+	 $cd dirname
+	 $cd ..
+	 
+Move dir
+	 $mv dirname dirname1
+
+
+Remove Dir
+	 $rmdir ~/dirname1
+	 $rm -r ~/dirname1
+
+Admin commands:
+
+Create Users, set password, switch user and exit out
+	 $sudo useradd inceptez
+	 $sudo passwd inceptez
+	 $su inceptez
+	 $exit
+
+Permissions
+
+Types - Owner, group and others
+	 $ls -l /home/hduser
+
+Here first column represents different access mode ie. permission associated with a file or directory.
+The permissions are broken into groups of threes, and each position in the group denotes a specific permission, in this order: read (r), write (w), execute (x) −
+ The first three characters (2-4) represent the permissions for the files owner. For example -rwxr-xr-- represents that onwer has read (r), write (w) and execute (x) permission.
+ The second group of three characters (5-7) consists of the permissions for the group to which the file belongs. For example -rwxr-xr-- represents that group has read (r) and execute (x) permission but no write permission.
+ The last group of three characters (8-10) represents the permissions for everyone else. For example -rwxr-xr-- represents that other world has read (r) only permission.
+Change mode: Number Octal Permission Representation Ref
+0
+No permission
+---
+
+1 Execute permission --x
+2 Write permission -w-
+4 Read permission r--
+
+Change permission of the owner and provide read and write access.
+	 $chmod 000 filename
+	 $chmod u+rw filename
+Change permission of the group and provide read and write access.
+	 $chmod g+rw filename
+Change permission of the others and provide read and write access.
+	 $chmod o+rw filename
+
+Changing owners and Groups
+Change owner from hduser to inceptez
+	 $sudo chown inceptez filename1
+
+Change group from hduser to inceptez
+	 $sudo chgrp inceptez filename1
+
+Misc commands
+
+Identify all running process
+	 $ps -ef
+
+Identify specific running process (bash)
+	 $ps -ef | grep bash
+	 $Kill a process running
+	 $kill -9 processid
+Disk size commands
+	 $Disk free
+	 
+
+$ echo $?  //return previous cmd result 0-success 1-error
+--sed for stream edit use for sed, the well-known stream editor,
+--A fast stream editor Its main usage consists in editing in-memory a stream according to the given pattern.
+$ sed 's/is/was/1' setest.txt  //  strem edit find and replace is to was first accurance
+$ sed 's/is/was/g' setest.txt  // find and replace is to was all accurance g= global replace
+
+$ sed '1,$ s/is/was/' sedtest.txt // replace from 1sr line to $- EOF(End of the file)
+
+$ sed '$d' sedtest.txt  //deleted last line
+$ sed '1d' sedtest.txt > sedelete.txt // delete first or particular line #
+$ sed '2,4d' sedtest.txt // delete between line# 2 to 4
+$ sed -n '3,5p' sedtest.txt // print nth mth possion
+$ sed '3,5d' sedtest.txt // Viewing the entire file except a given range
+$ sed -n -e '2,5p' -e '8,10p' sedtest.txt  //Viewing non-consecutive lines and ranges
+
+$ sed 's/unix/linux/g' sedtest.txt   //Replacing words or characters (basic substitution)
+$ sed 's/unix/linux/gi' sedtest.txt    //Replacing words or characters ignore case sensitive 
+$ ip route show | sed 's/  */ /g'  //To replace multiple blank spaces with a single space, we will use the output of ip route show
+$ cat sedtest.txt | sed 's/  */ /g'
+$ cat sedtest.txt | sed 's/  */$/g' // space filled with $
+$ sed '5,40 s/bye/goodbye/gi' sedtest.txt  ////Replacing words or characters (basic substitution) in-between line rance
+$ cat .bashrc | sed '/^#/d' //To remove empty lines or those beginning with # from .bashrc configuration file, do:
+$ cat .bashrc | sed '/^#\|^$\ /d'
+$ sed 's/[Bb]ye/Hello/g' sedtest.txt //Bye or bye replace Bye -> Hello find and repalce cases
+# sed -n '/^Jul  1/ p' /var/log/secure // the pattern to search for is Jul 2 at the beginning of each line:
+
+$ sed 'G' sedtest.txt //To insert one blank lines, 
+$ sed 'G;G' sedtest.txt //To insert two blank lines, 
+$ sed '/and/ s/will/had/gi' sedtest.txt  //replace will with had only if the word and is found in the same line. 
+$ sed -i 's/is/was/gi;s/bye/GoodBye/gi' myfile.txt
+
+$ ip route show
+$ ip route show | sed -n '/src/p' //print src line only
+$ ip route show | sed -n '/src/p' | sed -e 's/  */ /g'  // in src line remove "  " to " "
+$ ip route show | sed -n '/src/p' | sed -e 's/  */ /g'| cut -d' ' -f9  // cut the 9th field
+-----------------------
+--awk program (Aho, Weinberger, Kernighan) works well with delimited field processing.
+--awk’s capabilities shine: it is programming language with an awkward syntax that allows advanced in-memory modifications and 
+--powerful reporting; as seen, sed is able to modify the text, but, it cannot operate programmatically as awk, 
+--this poperly makes it a powerful stream editor – to be used like that.
+
+$ awk '{printf "%s\n",$1}' sedtest.txt \\ print first filed after formatting. 
+$ echo "I like CentOS for learing" | awk '{print $3}' \\ print 3rd word. it will split -up with space
+
+$ awk '$1=$1' FS="|" OFS="#" opCatUnableToOutPut.txt \\to change the delimiter, ‘|’ by ‘#’ to the content of the file,
+$ ls -lrt | awk -v OFS='\t' 'BEGIN { printf "%s\t%s\n", "Rights\t","FileSize"} {print $1,$5}' \\ from list will print first and 5th colums as rights, FileSize
+$ awk -F "|" '{print $3}' opCatUnableToOutPut.txt \\ set the delimiter for splitting each line of the file. The following awk command will print the name field of the customer.csv file.
+$ sed -n '/N/p' opCatUnableToOutPut.txt | awk -F '|' '{printf "%s(%s)\n", $1,$2}' // set the delimiter for splitting each line of the file. The following awk command will print the name field of the file.
+  o/p -	NYSE(CLI)
+		NYSE(CLI)
+		NYSE(CLI)
+		NYSE(CLI)
+		NYSE(CLI)
+
+-----------------------		
+----Grep is an acronym that stands for Global Regular Expression Print.
+---- The grep command is handy when searching through large log files.
+$ grep Good sedtest.txt // serch Good String in sedtest.txt file
+$ grep Good sedtest.txt sedelete.txt  //serch Good String in multiple files file
+$ grep test* //Search file naem start with test
+$ grep -n -A 2 linux sedtest.txt //this command prints three lines after the match. -n with line #
+$ grep -n -B 2 linux sedtest.txt //this command prints three lines Before the match.
+$ grep -n -C 2 linux sedtest.txt //this command prints three lines Before & after the match.
+$ grep -m4 NYSE opCatUnableToOutPut.txt //matches for grep search patterns with Limit the number of lines(4) in the grep output by adding the -m option and a number to the command.
+$ cat x.txt | grep foo | sed 's/foo/bar/g' 
+====================================================================================================================================================================
