@@ -120,9 +120,9 @@ Remove Dir
 Admin commands:
 
 Create Users, set password, switch user and exit out
-	 $sudo useradd inceptez
-	 $sudo passwd inceptez
-	 $su inceptez
+	 $sudo useradd hduser
+	 $sudo passwd hduser
+	 $su hduser
 	 $exit
 
 Permissions
@@ -153,11 +153,11 @@ Change permission of the others and provide read and write access.
 	 $chmod o+rw filename
 
 Changing owners and Groups
-Change owner from hduser to inceptez
-	 $sudo chown inceptez filename1
+Change owner from hduser to hduser
+	 $sudo chown hduser filename1
 
-Change group from hduser to inceptez
-	 $sudo chgrp inceptez filename1
+Change group from hduser to hduser
+	 $sudo chgrp hduser filename1
 
 Misc commands
 
@@ -237,4 +237,5 @@ $ grep -n -B 2 linux sedtest.txt //this command prints three lines Before the ma
 $ grep -n -C 2 linux sedtest.txt //this command prints three lines Before & after the match.
 $ grep -m4 NYSE opCatUnableToOutPut.txt //matches for grep search patterns with Limit the number of lines(4) in the grep output by adding the -m option and a number to the command.
 $ cat x.txt | grep foo | sed 's/foo/bar/g' 
+====================================================================================================================================================================
 ====================================================================================================================================================================
